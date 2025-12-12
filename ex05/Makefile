@@ -5,18 +5,21 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = srcs/main.cpp \
 	   srcs/Harl.cpp
-OBJS = $(SRCS:.cpp=.o)
+
+OBJ_DIR = build
+OBJS = $(addprefix $(OBJ_DIR)/,$(SRCS:.cpp=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-%.o: %.cpp
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
