@@ -7,18 +7,21 @@ SRCS = srcs/main.cpp \
 	   srcs/Weapon.cpp \
 	   srcs/HumanA.cpp \
 	   srcs/HumanB.cpp
-OBJS = $(SRCS:.cpp=.o)
+	   
+OBJ_DIR = build
+OBJS = $(addprefix $(OBJ_DIR)/,$(SRCS:.cpp=.o))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
 
-%.o: %.cpp
+$(OBJ_DIR)/%.o: %.cpp
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)
